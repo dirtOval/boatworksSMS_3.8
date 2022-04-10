@@ -1,0 +1,12 @@
+{% include "SMS/base.html" %}
+
+<h1>Users:</h1>
+{% for user in user_list %}
+<span>{{user.username}}</span>
+{% if user.id == request.user.id %}
+<a href="{% url 'userupdate' user.id %}">Edit</a>
+{% endif %}
+<br>
+{% endfor %}
+<p>- - - - - - - -</p>
+<a href="{% url 'newuser' %}">Create New User</a>

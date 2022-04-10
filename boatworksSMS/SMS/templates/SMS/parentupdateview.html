@@ -1,0 +1,16 @@
+{% extends 'SMS/base.html' %}
+
+{% block content %}
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+
+<h3>Modify {{parent.first_name}} {{parent.last_name}}?</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Update">
+</form>
+
+{% endblock %}

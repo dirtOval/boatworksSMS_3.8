@@ -1,0 +1,18 @@
+{% extends 'SMS/base.html' %}
+
+{% block content %}
+
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+
+<h3>Create Student?</h3>
+<p><b>IMPORTANT:</b> Phone numbers must be entered in xxx-xxx-xxxx format.</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Create">
+</form>
+
+{% endblock %}

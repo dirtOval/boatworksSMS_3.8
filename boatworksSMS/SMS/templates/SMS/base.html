@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'SMS/base.css' %}"/>
+{% block head %}
+
+{% endblock %}
+</head>
+
+<body>
+<nav>
+<ul class="navul">
+    <li class="navli"><a href="{% url 'home' %}">Home</a></li>
+    <li class="navli"><a href="{% url 'messaging' %}">Messaging</a></li>
+    <li class="navli"><a href="{% url 'addressbook' %}">Address Book</a></li>
+    <li class="navli"><a href="{% url 'userlist' %}">Users</a></li>
+</ul>
+<br>
+</nav>
+
+{% if request.user.is_authenticated %}
+<span>Hello, {{request.user.username}}! - - -</span>
+<a href="{% url 'logout' %}">Log Out</a>
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
+</body>
+</html>

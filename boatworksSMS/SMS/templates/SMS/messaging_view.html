@@ -1,0 +1,21 @@
+{% extends "SMS/base.html" %}
+
+{% block content %}
+<h1>Messaging Menu</h1>
+<a href="{% url 'messaging' %}">Message Box</a>
+<a href="{% url 'messagelog' %}">Message Log</a>
+<br>
+<br>
+<form action="{% url 'send' %}" method="get">
+    {% csrf_token %}
+    <span><b>List</b></span>
+    <select id="listselector" name="list_selection">
+{% for list in lists %}
+        <option value={{list.id}}>{{list.name}}</option>
+{% endfor %}
+    </select>
+    <input type="submit" value="Send Message" name="message"/>
+    <br>
+    <textarea name="msg" style="resize: none;"  rows="12" cols="40" placeholder="Write a message . . ."></textarea>
+</form>
+{% endblock %}

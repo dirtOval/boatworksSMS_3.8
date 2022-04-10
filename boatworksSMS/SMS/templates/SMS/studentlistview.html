@@ -1,0 +1,78 @@
+{% extends 'SMS/base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'SMS/list.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+<h3>Students:</h3>
+<a href="{% url 'studentcreate' %}">Add Student</a>
+<br><br>
+<form action="{% url 'studentsearch' %}" method="GET">
+    <input name="q" type="text" placeholder="Search students..."/>
+    <input type="submit" value="Search"/>
+</form>
+<br><br>
+<table>
+    <tr>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Grade During BKBW</th>
+        <th>Birthdate</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Apartment</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip Code</th>
+        <th>Emergency Contact Name</th>
+        <th>Emergency Contact Relationship</th>
+        <th>Emergency Contact Phone</th>
+        <th>Graduation Status</th>
+        <th>Active Alum</th>
+        <th>School</th>
+        <th>Year</th>
+        <th>Instructors</th>
+        <th>Media Consent</th>
+        <th>Program Type</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+
+{% for student in student_list|dictsort:"last_name" %}
+    <tr>
+        <td>{{student.last_name}}</td>
+        <td>{{student.first_name}}</td>
+        <td>{{student.grade_during_BKBW}}</td>
+        <td>{{student.birthdate}}</td>
+        <td>{{student.email}}</td>
+        <td class="phone">{{student.phone}}</td>
+        <td>{{student.address}}</td>
+        <td>{{student.apartment}}</td>
+        <td>{{student.city}}</td>
+        <td>{{student.state}}</td>
+        <td>{{student.zip_code}}</td>
+        <td>{{student.emergency_contact_name}}</td>
+        <td>{{student.emergency_contact_relationship}}</td>
+        <td>{{student.emergency_contact_phone}}</td>
+        <td>{{student.graduation_status}}</td>
+        <td>{{student.active_alum}}</td>
+        <td>{{student.school}}</td>
+        <td>{{student.year}}</td>
+        <td>{{student.instructors}}</td>
+        <td>{{student.media_consent}}</td>
+        <td>{{student.program_type}}</td>
+        <td><a href="{% url 'studentupdate' student.id %}">Edit</a></td>
+        <td><a href="{% url 'studentdelete' student.id %}">Delete</a></td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+{% endblock %}

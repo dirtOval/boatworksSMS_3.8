@@ -1,0 +1,8 @@
+table, tr, td {
+    border: 1px solid black;
+}
+
+.phone {
+    padding-left: 10px;
+    padding-right: 10px;
+}

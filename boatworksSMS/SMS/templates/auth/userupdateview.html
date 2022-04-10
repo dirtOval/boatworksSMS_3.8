@@ -1,0 +1,15 @@
+{% include "SMS/base.html" %}
+
+{% block content %}
+{% if request.user.id == user.pk %}
+<h3>Update User?</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Update">
+</form>
+{% else %}
+<p>Do Not Attempt To Modify Other Users' Information.</p>
+{% endif %}
+
+{% endblock %}

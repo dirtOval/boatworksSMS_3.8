@@ -1,0 +1,47 @@
+{% extends 'SMS/base.html' %}
+{% load static %}
+{% load SMS_extras %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'SMS/log.css' %}"/>
+{% endblock %}
+{% block content %}
+<h1>Messaging Menu</h1>
+<a href="{% url 'messaging' %}">Message Box</a>
+<a href="{% url 'messagelog' %}">Message Log</a>
+<br>
+<br>
+<div class=border>
+<table>
+    <tr>
+        <th>Date Sent</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Status</th>
+        <th>Cost</th>
+        <th>Body</th>
+    </tr>
+{% for x in log %}
+{% if x.direction == "outbound-api" %}
+    <tr class="sent">
+        <td class="sent">{{x.date_sent}}</td>
+        <td class="sent">{% get_name_from_number x.from_%}</td>
+        <td class="sent">{% get_name_from_number x.to %}</td>
+        <td class="sent">{{x.status}}</td>
+        <td class="sent">{{x.price}} {{x.price_unit}}</td>
+        <td class="sent"> {{x.body}}</td>
+    </tr>
+{% elif x.direction == "inbound" %}
+    <tr class="sent">
+        <td class="received">{{x.date_sent}}</td>
+        <td class="received">{% get_name_from_number x.from_%}</td>
+        <td class="received">{% get_name_from_number x.to %}</td>
+        <td class="received">{{x.status}}</td>
+        <td class="received">{{x.price}} {{x.price_unit}}</td>
+        <td class="received"> {{x.body}}</td>
+</tr>
+{% endif%}
+{% endfor %}
+</table>
+</div>
+{% endblock %}

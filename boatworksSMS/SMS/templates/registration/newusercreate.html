@@ -1,0 +1,12 @@
+{% include "SMS/base.html" %}
+
+{% block content %}
+
+<h3>Create New User?</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Create">
+</form>
+
+{% endblock %}

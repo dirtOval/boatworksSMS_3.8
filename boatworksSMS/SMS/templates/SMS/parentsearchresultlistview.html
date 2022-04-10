@@ -1,0 +1,57 @@
+{% extends 'SMS/base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'SMS/list.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+<h3>Search Results:</h3>
+<br><br>
+<form action="{% url 'listadd' %}" method="POST">
+    {% csrf_token %}
+    <select name="list_selection">
+{% for list in lists %}
+        <option value={{list.id}}>{{list.name}}</option>
+{% endfor %}
+    <input type="submit" value="Add Selected To list">
+    <table>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Cell Phone</th>
+            <th>Home Phone</th>
+            <th>Work Phone</th>
+            <th>Email</th>
+            <th>Student</th>
+            <th>Do Not Solicit</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Select</th>
+        </tr>
+
+{% for parent in object_list|dictsort:'last_name' %}
+        <tr>
+            <td>{{parent.last_name}}</td>
+            <td>{{parent.first_name}}</td>
+            <td>{{parent.cell_phone}}</td>
+            <td>{{parent.home_phone}}</td>
+            <td>{{parent.work_phone}}</td>
+            <td>{{parent.email}}</td>
+            <td>{{parent.student}}</td>
+            <td>{{parent.do_not_solicit}}</td>
+            <td><a href="{% url 'parentupdate' parent.id %}">Edit</a></td>
+            <td><a href="{% url 'parentdelete' parent.id %}">Delete</a></td>
+            <td><input type="checkbox" value={{parent.id}} name="parent"></td>
+        </tr>
+{% endfor %}
+    </table>
+</form>
+
+<br>
+
+{% endblock %}

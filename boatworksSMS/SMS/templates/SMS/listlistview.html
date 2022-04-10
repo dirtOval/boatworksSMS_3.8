@@ -1,0 +1,18 @@
+{% extends 'SMS/base.html' %}
+
+{% block content %}
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+<h3>Lists:</h3>
+<p>- - - - - - - - - - - -</p>
+{% for list in list_list %}
+<span><a href="{% url 'listdetail' list.id %}">{{list.name}}</a></span>
+<a href="{% url 'listdelete' list.id %}">Delete</a>
+<br>
+{% endfor %}
+<p>- - - - - - -- - - - - -</p>
+<a href="{% url 'listcreate' %}">Create List</a>
+
+{% endblock %}

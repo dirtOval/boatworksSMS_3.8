@@ -1,0 +1,14 @@
+{% extends 'SMS/base.html' %}
+
+{% block content %}
+
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+
+<h3>Parent(s) removed from list:</h3>
+{% for parent in parents_removed %}
+<p>{{parent.last_name}}, {{parent.first_name}} | {{parent.cell_phone}}</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "SMS/base.html" %}
+
+{% block content %}
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+
+<h3> {{list.name}} </h3>
+<form action="{% url 'listdetailremove' list.id %}" method="POST">
+    {% csrf_token %}
+{% for parent in list.parents.all %}
+    <span>{{parent.last_name}} {{parent.first_name}} | {{parent.cell_phone}}</span>
+    <input type="checkbox" value={{parent.id}} name="parents"/>
+    <br>
+{% endfor %}
+<br>
+<input type="submit" value="Remove Selected From List">
+</form>
+
+
+{% endblock %}
