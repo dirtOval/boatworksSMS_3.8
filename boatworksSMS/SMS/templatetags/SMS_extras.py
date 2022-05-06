@@ -1,7 +1,7 @@
 from django import template
 from SMS.models import Parent
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 register = template.Library()
 
@@ -24,5 +24,12 @@ def get_name_from_number(number):
                 return "Parent of " + parent.student.last_name + ", " + parent.student.first_name
         except ObjectDoesNotExist:
             return "Unknown Number"
+        except MultipleObjectsReturned:
+            parent = Parent.objects.filter(cell_phone=formatted_number)[0]
+            if parent.last_name and parent.first_name:
+                return parent.last_name + ", " + parent.first_name
+            else:
+                return "Parent of " + parent.student.last_name + ", " + parent.student.first_name
+
     else:
         return "BoatworksSMS"

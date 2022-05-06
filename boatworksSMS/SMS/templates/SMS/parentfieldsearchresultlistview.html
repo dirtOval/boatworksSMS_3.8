@@ -10,15 +10,7 @@
 <a href="{% url 'parentlist' %}">Parents</a>
 <a href="{% url 'studentlist' %}">Students</a>
 <a href="{% url 'listlist' %}">Lists</a>
-<h3>Parents:</h3>
-<a href="{% url 'parentcreate' %}">Add Parent</a>
-<br><br>
-<form action="{% url 'parentsearch' %}" method="GET">
-    <input name="q" type="text" placeholder="Search parents..."/>
-    <input type="submit" value="Search"/>
-</form>
-<br>
-<a href="{% url 'filter' %}">Search By Student Field</a>
+<h3>Search Results:</h3>
 <br><br>
 <form action="{% url 'listadd' %}" method="POST">
     {% csrf_token %}
@@ -42,7 +34,7 @@
             <th>Select</th>
         </tr>
 
-{% for parent in parent_list|dictsort:'last_name' %}
+{% for parent in object_list|dictsort:'last_name' %}
         <tr>
             <td>{{parent.last_name}}</td>
             <td>{{parent.first_name}}</td>

@@ -3,6 +3,11 @@
 {% block content %}
 
 <h2>Message Sent!</h2>
+{% if failed %}
+{% for fail in failed %}
+<p>Failed to send to {{fail}}</p>
+{% endfor %}
+{% endif %}
 {% for number in numbers %}
 <p>{{number}}</p>
 {% endfor %}

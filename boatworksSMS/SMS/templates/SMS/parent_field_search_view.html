@@ -1,0 +1,76 @@
+{% extends 'SMS/base.html' %}
+
+{% block content %}
+<h1>Address Book</h1>
+<a href="{% url 'parentlist' %}">Parents</a>
+<a href="{% url 'studentlist' %}">Students</a>
+<a href="{% url 'listlist' %}">Lists</a>
+<br><br>
+<form action="filtersearch" method="GET">
+    <label for="first_name">First Name</label>
+    <input name="first_name" type="text"/>
+    <br>
+    <label for="last_name">Last Name</label>
+    <input name="last_name" type="text"/>
+    <br>
+    <label for="grade_during_BKBW">Grade During BKBW</label>
+    <input name="grade_during_BKBW" type="text"/>
+    <br>
+    <label for="birthdate">Birthdate</label>
+    <input name="birthdate" type="text"/>
+    <br>
+    <label for="email">Email</label>
+    <input name="email" type="text"/>
+    <br>
+    <label for="phone">Phone</label>
+    <input name="phone" type="text"/>
+    <br>
+    <label for="address">Address</label>
+    <input name="address" type="text"/>
+    <br>
+    <label for="apartment">Apartment</label>
+    <input name="apartment" type="text"/>
+    <br>
+    <label for="city">City</label>
+    <input name="city" type="text"/>
+    <br>
+    <label for="state">State</label>
+    <input name="state" type="text"/>
+    <br>
+    <label for="zip_code">Zip Code</label>
+    <input name="zip_code" type="text">
+    <br>
+    <label for="emergency_contact_name">Emergency Contact Name</label>
+    <input name="emergency_contact_name" type="text"/>
+    <br>
+    <label for="emergency_contact_relationship">Emergency Contact Relationship</label>
+    <input name="emergency_contact_relationship" type="text"/>
+    <br>
+    <label for="emergency_contact_phone">Emergency Contact Phone</label>
+    <input name="emergency_contact_phone" type="text"/>
+    <br>
+    <label for="graduation_status">Graduation Status</label>
+    <input name="graduation_status" type="text"/>
+    <br>
+    <label for="active_alum">Active Alum</label>
+    <input name="active_alum" type="text"/>
+    <br>
+    <label for="school">School</label>
+    <input name="school" type="text"/>
+    <br>
+    <label for="year">Year</label>
+    <input name="year" type="text"/>
+    <br>
+    <label for="instructors">Instructors</label>
+    <input name="instructors" type="text"/>
+    <br>
+    <label for="media_consent">Media Consent</label>
+    <input name="media_consent" type="text"/>
+    <br>
+    <label for="program_type">Program Type</label>
+    <input name="program_type" type="text"/>
+    <br>
+    <input type="submit" value="Search"/>
+</form>
+
+{% endblock %}

@@ -17,6 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from django.db.models import Q
+from twilio.base.exceptions import TwilioRestException
 
 # Create your views here.
 
@@ -72,12 +73,18 @@ def send_view(request):
         numbers_formatted.append(finished)
 
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    #this is for accumulating the numbers that throw TwilioRestException
+    failed_numbers = []
     for recipient in numbers_formatted:
-        if recipient:
-            client.messages.create(to=recipient,
-                                   from_=settings.TWILIO_NUMBER,
-                                   body=message_to_broadcast)
-    context = {"numbers": numbers_formatted}
+        try:
+            if recipient:
+                client.messages.create(to=recipient,
+                                    from_=settings.TWILIO_NUMBER,
+                                    body=message_to_broadcast)
+        except TwilioRestException:
+            failed_numbers.append(recipient)
+            continue
+    context = {"numbers": numbers_formatted, "failed": failed_numbers}
     return render(request, "SMS/send_view.html", context)
 
 @login_required
@@ -122,6 +129,70 @@ class ParentSearchResultListView(LoginRequiredMixin, ListView):
             Q(email__icontains=query) |
             Q(student__last_name__icontains=query) |
             Q(student__first_name__icontains=query) )
+
+@login_required
+def parent_field_search_view(request):
+    return render(request, "SMS/parent_field_search_view.html")
+
+class ParentFieldSearchResultListView(LoginRequiredMixin, ListView):
+    model = Parent
+    template_name = "SMS/parentfieldsearchresultlistview.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ParentFieldSearchResultListView, self).get_context_data(*args, **kwargs)
+        context['lists'] = List.objects.all()
+        return context
+
+    def get_queryset(self):
+        first_name = self.request.GET.get("first_name")
+        last_name = self.request.GET.get("last_name")
+        grade_during_BKBW = self.request.GET.get("grade_during_BKBW")
+        birthdate = self.request.GET.get("birthdate")
+        email = self.request.GET.get("email")
+        phone = self.request.GET.get("phone")
+        address = self.request.GET.get("address")
+        apartment = self.request.GET.get("apartment")
+        city = self.request.GET.get("city")
+        state = self.request.GET.get("state")
+        zip_code = self.request.GET.get("zip_code")
+        emergency_contact_name = self.request.GET.get("emergency_contact_name")
+        emergency_contact_relationship = self.request.GET.get("emergency_contact_relationship")
+        emergency_contact_phone = self.request.GET.get("emergency_contact_phone")
+        graduation_status = self.request.GET.get("graduation_status")
+        active_alum = self.request.GET.get("active_alum")
+        school = self.request.GET.get("school")
+        year = self.request.GET.get("year")
+        instructors = self.request.GET.get("instructors")
+        media_consent = self.request.GET.get("media_consent")
+        program_type = self.request.GET.get("program_type")
+        field_list = {"first_name__icontains": first_name,
+                      "last_name__icontains": last_name,
+                      "grade_during_BKBW__icontains": grade_during_BKBW,
+                      "birthdate__icontains": birthdate,
+                      "email__icontains": email,
+                      "phone__icontains": phone,
+                      "address__icontains": address,
+                      "apartment__icontains": apartment,
+                      "city__icontains": city,
+                      "state__icontains": state,
+                      "zip_code__icontains": zip_code,
+                      "emergency_contact_name__icontains": emergency_contact_name,
+                      "emergency_contact_relationship__icontains": emergency_contact_relationship,
+                      "emergency_contact_phone__icontains": emergency_contact_phone,
+                      "graduation_status__icontains": graduation_status,
+                      "active_alum__icontains": active_alum,
+                      "school__icontains": school,
+                      "year__icontains": year,
+                      "instructors__icontains": instructors,
+                      "media_consent__icontains": media_consent,
+                      "program_type__icontains": program_type}
+        student_list = Student.objects.all()
+        for field in field_list:
+            if field_list[field]:
+                student_list = student_list.filter(**{field: field_list[field]})
+        #so we have the filtered list of students, now to get their parents
+        parent_list = Parent.objects.filter(student__in=student_list)
+        return parent_list
 
 @login_required
 def parent_list_add_view(request):
